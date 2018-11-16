@@ -1,10 +1,8 @@
+const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
 
 const { Genre, validateGenre } = require('../models/genre');
-
-
-
 
 router.get('/', async (req, res) => {
     const genres = await Genre.find().sort('name');
@@ -25,7 +23,7 @@ router.delete('/:id', async (req, res) => {
     res.send(genre);
 });
 
-router.post('/', (req, res) => {
+router.post('/', auth, (req, res) => {
     const { error } = validateGenre(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -41,7 +39,7 @@ router.post('/', (req, res) => {
         })
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
     const { error } = validateGenre(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
