@@ -1,3 +1,4 @@
+// const _ = require('lodash');
 const express = require('express');
 const router = express.Router();
 
@@ -30,15 +31,26 @@ router.post('/', async (req, res) => {
     const { error } = validateMovie(req.body);
     if (error) return res.status(400).send(error.details[0].message)
 
-    const genre = await Genre.findById(req.body.genreId);
-    if (!genre) return res.status(400).send('Invalid genre.');
+    async function fetchGenres() {
+        let genres = await Promise.all(req.body.genreIds.map(async (id) => {
+            let genre = await Genre.findById(id);
+            if (!genre) return res.status(400).send('Invalid genres.');
+
+            // console.log(_.omit(genre, '__v'))
+            return {
+                _id: genre._id,
+                name: genre.name
+            }
+        }));
+        return genres;
+    }
+
+    const genres = await fetchGenres();
+
 
     const movie = new Movie({
         title: req.body.title,
-        genre: {
-            _id: genre._id,
-            name: genre.name
-        },
+        genres: genres,
         numberInStock: req.body.numberInStock,
         dailyRentalRate: req.body.dailyRentalRate
     });

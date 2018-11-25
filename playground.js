@@ -1,9 +1,4 @@
-const bcrypt = require('bcrypt');
-async function run(params) {
-    const salt = await bcrypt.genSalt(10);
-    const hashed = await bcrypt.hash('12345', salt);
-    console.log(salt)
-    console.log(hashed)
-}
+const _ = require('lodash');
+test = { "_id": "5bb45d1c33b7057085016700", "name": "Action", __v: 0 }
 
-run()
+console.log(_.omit(test, ['__v']))
