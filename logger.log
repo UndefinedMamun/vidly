@@ -8,3 +8,4 @@
 {"name":"MongoNetworkError","errorLabels":["TransientTransactionError"],"level":"info","message":"failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]"}
 {"level":"info","message":"movie.findByIdAndUpdate is not a function"}
 {"level":"info","message":"movie.findByIdAndUpdate is not a function"}
+{"name":"MongoNetworkError","errorLabels":["TransientTransactionError"],"level":"info","message":"failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]"}
