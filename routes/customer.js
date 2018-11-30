@@ -26,7 +26,8 @@ router.delete('/:id', async (req, res) => {
 router.post('/', (req, res) => {
     const customer = new Customer({
         name: req.body.name,
-        phone: req.body.phone
+        phone: req.body.phone,
+        isGold: req.body.isGold
     })
 
     customer.save()

@@ -12,9 +12,22 @@ const auth = require('../middleware/auth');
 
 
 
+router.get('/', auth, async (req, res) => {
+    // const user = await User.findById(req.user._id).select('-password');
+    const user = await User.find().select('-password');
+    res.send(user);
+});
+
 router.get('/me', auth, async (req, res) => {
     const user = await User.findById(req.user._id).select('-password');
     res.send(user);
+});
+
+router.get('/isemailtaken/:email', async (req, res) => {
+    const user = await User.findOne({ email: req.params.email });
+    if (user) return res.send(true)
+
+    return res.send(false)
 });
 
 router.delete('/:id', async (req, res) => {
@@ -38,6 +51,7 @@ router.post('/', async (req, res) => {
     await user.save();
 
     const token = user.generateAuthToken();
+    res.set('Access-Control-Expose-Headers', 'x-auth-token');
     res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
 });
 
